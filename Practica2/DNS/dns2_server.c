@@ -25,10 +25,11 @@ registrar_1_svc(char *arg1, char *arg2,  struct svc_req *rqstp)
 
 	fila lafila;
 	lafila.pc = atoi(arg1);	
-	//std::string str(arg2);
+	std::string str(arg2);
 	lafila.ip =  strdup(arg2);
 	registro.push_back(lafila);
-	
+	 
+	 
 	return &result;
 }
 
@@ -40,7 +41,6 @@ eliminar_1_svc(char *arg1,  struct svc_req *rqstp)
 
 	for(auto it = registro.begin(); it != registro.end(); it++){
 		if(it->pc == atoi(arg1)){
-			free(it->ip);
 			registro.erase(it);
 			result = 1;
 			return &result;
@@ -70,28 +70,7 @@ buscar_1_svc(char *arg1,  struct svc_req *rqstp)
 			result = it->ip;
 			//return &result;
 		}
-		
 	}
-	
-	if(result == (char *)NULL){
-			CLIENT *clnt;
-
-			#ifndef	DEBUG
-			clnt = clnt_create ("localhost", DNS2PROG, DNS2CVER, "udp");
-			if (clnt == NULL) {
-				clnt_pcreateerror ("localhost");
-				exit (1);
-			}
-			#endif	/* DEBUG */
-			
-			char ** a = buscar_1(arg1, clnt);
-			//std::cout << "NO HA PETADO AUN" << std::endl;
-			
-			if(a != (char ** )NULL)
-			result = *a;
-			
-
-		}
 
 	return &result;
 }

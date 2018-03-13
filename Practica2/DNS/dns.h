@@ -22,6 +22,8 @@ typedef struct registrar_1_argument registrar_1_argument;
 
 #define DNSPROG 0x20000199
 #define DNSCVER 1
+#define DNS2PROG 0x20000200
+#define DNS2CVER 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define registrar 1
@@ -34,6 +36,7 @@ extern  int * eliminar_1_svc(char *, struct svc_req *);
 extern  char ** buscar_1(char *, CLIENT *);
 extern  char ** buscar_1_svc(char *, struct svc_req *);
 extern int dnsprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern int dnsprog_2_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define registrar 1

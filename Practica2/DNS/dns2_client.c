@@ -21,7 +21,7 @@ dnsprog_1(char *host,char *operacion, char *pc, char *ip)
 	char *buscar_1_arg1 = pc;
 
 #ifndef	DEBUG
-	clnt = clnt_create (host, DNSPROG, DNSCVER, "udp");
+	clnt = clnt_create (host, DNS2PROG, DNS2CVER, "udp");
 	if (clnt == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
@@ -52,21 +52,11 @@ if(strcmp(operacion,"registrar") == 0){
 	}
 	else
 	std::cout << "\nResultado de busqueda de " << buscar_1_arg1 << " :" << *result_3 << "\n";
-	
+	//xdr_free(result_3);
 	
 
 }
-
-//xdr_free((xdrproc_t)xdr_int,(char *)result_1);
-//xdr_free((xdrproc_t)xdr_string,registrar_1_arg1);
-//xdr_free((xdrproc_t)xdr_int,(char *)result_2);
-//xdr_free((xdrproc_t)xdr_string,registrar_1_arg2);
-//xdr_free((xdrproc_t)xdr_int,(char *)result_1);
-//xdr_free((xdrproc_t)xdr_string,(char *)result_3);
-//xdr_free((xdrproc_t)xdr_string,eliminar_1_arg1);
-//xdr_free((xdrproc_t)xdr_string,buscar_1_arg1);
-
-
+	
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
