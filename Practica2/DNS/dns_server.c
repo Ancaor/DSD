@@ -37,6 +37,7 @@ int *
 eliminar_1_svc(char *arg1,  struct svc_req *rqstp)
 {
 	static int  result = 0;
+	result = 0;
 
 	for(auto it = registro.begin(); it != registro.end(); it++){
 		if(it->pc == atoi(arg1)){
@@ -53,6 +54,7 @@ char **
 buscar_1_svc(char *arg1,  struct svc_req *rqstp)
 {
 	static char * result = NULL;
+	result = NULL;
 
 	for(auto it = registro.begin(); it != registro.end(); it++){
 		if(it->pc == atoi(arg1)){

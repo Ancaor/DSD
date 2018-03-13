@@ -12,12 +12,12 @@ void
 dnsprog_1(char *host,char *operacion, char *pc, char *ip)
 {
 	CLIENT *clnt;
-	int  *result_1;
+	int  *result_1 = NULL;
 	char *registrar_1_arg1 = pc;
 	char *registrar_1_arg2 = ip;
-	int  *result_2;
+	int  *result_2 = NULL;
 	char *eliminar_1_arg1 = pc;
-	char * *result_3;
+	char * *result_3 = NULL;
 	char *buscar_1_arg1 = pc;
 
 #ifndef	DEBUG
@@ -34,22 +34,24 @@ if(strcmp(operacion,"registrar") == 0){
 	if (result_1 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	std::cout << "Resultado de registro:" << *result_1;
+	else
+	std::cout << "\nResultado de registro:" << *result_1 << "\n";
 
 }else if(strcmp(operacion,"eliminar") == 0){
 	result_2 = eliminar_1(eliminar_1_arg1, clnt);
 	if (result_2 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	std::cout << "Resultado de eliminar entrada:" << *result_2;
+	else
+	std::cout << "\nResultado de eliminar entrada:" << *result_2 << "\n";
 
 }else if(strcmp(operacion,"buscar") == 0){
 	result_3 = buscar_1(buscar_1_arg1, clnt);
 	if (result_3 == (char **) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-
-	std::cout << "Resultado de busqueda de " << buscar_1_arg1 << " :" << *result_3;
+	else
+	std::cout << "\nResultado de busqueda de " << buscar_1_arg1 << " :" << *result_3 << "\n";
 	//xdr_free(result_3);
 	
 
