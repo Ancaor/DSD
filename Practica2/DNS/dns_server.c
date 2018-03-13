@@ -5,34 +5,46 @@
  */
 
 #include "dns.h"
+#include <string>
+#include <list>
+#include <iostream>
 
-
-class pepe{
-private:
-	int a;
+struct fila{
+	int pc;
+	char *ip;
 };
+
+std::list<fila> registro;
+
 
 
 int *
 registrar_1_svc(char *arg1, char *arg2,  struct svc_req *rqstp)
 {
-	static int  result;
+	static int  result = 1;
 
-	/*
-	 * insert server code here
-	 */
-
+	fila lafila;
+	lafila.pc = atoi(arg1);	
+	std::string str(arg2);
+	lafila.ip =  strdup(arg2);
+	registro.push_back(lafila);
+	 
+	 
 	return &result;
 }
 
 int *
 eliminar_1_svc(char *arg1,  struct svc_req *rqstp)
 {
-	static int  result;
+	static int  result = 0;
 
-	/*
-	 * insert server code here
-	 */
+	for(auto it = registro.begin(); it != registro.end(); it++){
+		if(it->pc == atoi(arg1)){
+			registro.erase(it);
+			result = 1;
+			return &result;
+		}
+	}
 
 	return &result;
 }
@@ -40,11 +52,23 @@ eliminar_1_svc(char *arg1,  struct svc_req *rqstp)
 char **
 buscar_1_svc(char *arg1,  struct svc_req *rqstp)
 {
-	static char * result;
+	static char * result = NULL;
 
-	/*
-	 * insert server code here
-	 */
+	for(auto it = registro.begin(); it != registro.end(); it++){
+		if(it->pc == atoi(arg1)){
+			//strcpy(result,(it->ip).c_str());
+			//std::cout << it->ip << std::endl;
+			
+			//const char * aux = it->ip.c_str();
+			//char *aux2 = "asd";
+			//strcpy(aux2,aux);
+			std::cout << it->pc << std::endl;
+			std::cout << it->ip << std::endl;
+			
+			result = it->ip;
+			//return &result;
+		}
+	}
 
 	return &result;
 }
