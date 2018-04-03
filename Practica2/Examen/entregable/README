@@ -1,0 +1,23 @@
+
+Estructura:
+
+Son 4 ejecutables:
+
+	-dns_server : Servidor DNS capaz de actuar como cliente de DNS2 para la busqueda y la modificación.
+	-dns_cliente : Cliente de DNS.
+	-dns2_server : Sercidor DNS2.
+	-dns2_cliente : Cliente de DNS2.
+
+Como utilizar los clientes:
+
+	-Para registrar    ./dns_cliente localhost registrar <pc> <ip>              // siendo <pc> un entero e <ip> un string
+
+	-Para eliminar	   ./dns_cliente localhost eliminar <pc>
+
+	-Para buscar       ./dns_cliente localhost buscar <pc>                      // En el caso de buscar con DNS1 si no lo encuentra buscará automaticamente en DNS2
+
+	-Para modificar    ./dns_cliente localhost modificar <pc> <nueva_ip> <dns>  // <dns> es un entero que ponemos a 1 o a 2 para elegir servidor dns.
+										    // En este caso si estamos trabajando con "dns_cliente" podemos elegir si 
+										    // la busqueda se realizará sobre el dns1 o dns2.
+										    // Si estamos en "dns2_cliente" el campo <dns> no es obligatorio pues no
+										    // afecta en nada.

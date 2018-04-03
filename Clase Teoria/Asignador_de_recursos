@@ -1,0 +1,29 @@
+// servidor
+
+while(true){
+    receive peticion(indice,clase,unidad);
+
+    if(clase == ADQUIRIR){
+        if(disponibles > 0){
+            disponibles--;
+            unidad = remove(unidades); // elimino una unidad y la doy al cliente
+            send respuesta[indice](unidad);
+        }else{
+            pendientes.add(indice); // encolo al cliente
+        }
+    }else if (clase == LIBERAR){
+        if(pendientes.empty()){
+            disponibles++;
+            unidades.add(unidad);
+        }else{
+            int indice_pendiente = pendientes.pop(); // el primero de la cola
+            send respuesta[indice_pendiente](unidad)
+        }
+    }
+}
+
+
+// Como el receive es siempre bloqueante, y nosotros encolamos o no al cliente si no hay recursos, daria igual si el paso
+// mensajes es sincrono o asincrono
+
+// El problema es que como todo va sobre un canal no podemos priorizar LIBERAR sobre ADQUIRIR.

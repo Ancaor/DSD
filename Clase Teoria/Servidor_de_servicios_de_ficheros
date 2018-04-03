@@ -1,0 +1,24 @@
+
+// Operaciones = abrir,leer,escribir,cerrar
+
+Ficheros [i:1..n]::
+var nombref:string; args: otros tipos;
+    indice_cliente:int; resultados: int;
+    fichero_abierto:bool;
+    buffer_local, cache,direccion_de_disco, ...;
+
+    do receive abrir ( nombref , indice_cliente);
+        //el servidor hace un open del fichero
+        //si tiene exito
+        
+        send respuesta[indice_cliente](args,i);
+        fichero_abierto=true;
+
+        do 
+
+            fichero_abierto ; receive leer[i](args)  -> //procesar peticion  // send respuesta[indice_cliente](arg,i)
+            fichero_abierto ; receive escribir[i](args) -> //procesar peticion  // send respuesta[indice_cliente](arg,i)
+            fichero_abierto ; receive cerrar[i](args) -> fichero_abierto=false; send respuesta[ndice_cliente](arg,i);
+
+
+        // si no tuvo exito el abrir fichero se enviaria el error al cliente y yastaria
