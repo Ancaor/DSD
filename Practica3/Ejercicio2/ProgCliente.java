@@ -24,7 +24,6 @@ public class ProgCliente {
 				"\n--------Menu----------\n"
 					+"D : Donar\n"
 					+"T : Consultar total donado\n"
-					+"B : Consultar subtotal donado en el servidor\n"
 					+"S : Salir\n"
 				;
 		
@@ -71,14 +70,14 @@ public class ProgCliente {
 	            		if(!servidor.equals("")) {
 	            			identificado = true;
 	            			instancia_local = (Servidor_I) registry.lookup(servidor); // servidor asignado
-	            			System.out.println("Bienvenido "+ idCliente);
+	            			System.out.println("\nBienvenido "+ idCliente);
 	            		}else {
 	            			identificado = false;
-	            			System.out.println("No existe una cuenta con ese nombre de usuario.");
+	            			System.out.println("\nNo existe una cuenta con ese nombre de usuario.");
 	            		}
 	            		
 	            		
-	            		break;
+	            		break;	
 	            	case "S":
 	            		System.exit(0);
 	            		break;
@@ -94,12 +93,23 @@ public class ProgCliente {
 	            	switch(accion) {
 	            	case "D":
 	            		System.out.println("Introduce la cantidad:");
-	            		//idCliente = entrada.nextLine();
-	            		double donado = instancia_local.donar(idCliente,Double.parseDouble(entrada.nextLine()));
-	            		//int resultadoRegistro = instancia_local.registrar(idCliente,passwordCliente);
-	            		System.out.println(String.valueOf(donado));
+	            		double cifra = Float.valueOf(entrada.nextLine());//entrada.nextDouble();
+	            		
+	            		if(cifra <= 0) {
+	            			System.out.println("\nCantidad no valida, por favor introduzca un a donación superior a 0\n");
+	            		}else {
+	            			double donado = instancia_local.donar(idCliente,cifra);
+		            		System.out.println("\nGracias por su donación");
+	            		}
+	            		
 	            		break;
-	            	case "I":
+	            	case "T":
+	            		double totalDonado = instancia_local.verTotal(idCliente);
+	            		if(totalDonado == -1) {
+	            			System.out.println("\nDebes haber realizado una donacion para poder ver el total de donaciones");
+	            		}else {
+	            			System.out.println("\nEl total donado es: " + totalDonado);
+	            		}
 	            		
 	            		break;
 	            	case "S":

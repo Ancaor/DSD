@@ -72,14 +72,24 @@ public class Servidor2 implements Servidor_I,Replica_I {
 	public double donar(String idCliente,double cantidad) throws RemoteException {
 		
 		clientes.get(idCliente).addDonacion(cantidad);
+		System.out.println("El cliente " + idCliente + "ha donado: " + cantidad);
 		
 		return clientes.get(idCliente).getDonado();
 	}
 
 	@Override
-	public double verTotal() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+	public double verTotal(String idCliente) throws RemoteException {
+		
+		if(clientes.get(idCliente).getDonado() != 0) {
+			Replica_I replica = this.getReplica("localhost", this.replica); 
+			
+			double total_donado_replica = replica.donacionesReplica();
+			double total_donado = this.donacionesReplica();
+			
+			return (total_donado + total_donado_replica);
+			
+			
+		}else return -1;
 	}
 
 	public static void main(String[] args) {
@@ -88,8 +98,8 @@ public class Servidor2 implements Servidor_I,Replica_I {
             System.setSecurityManager(new SecurityManager());
         }
         try {
+            String nombreServidor = "Server2";
             String nombreReplica = "Server1";
-            String  nombreServidor = "Server2";
             Servidor_I prueba = new Servidor2(nombreServidor,nombreReplica);
             Servidor_I stub =
                 (Servidor_I) UnicastRemoteObject.exportObject(prueba, 0);
@@ -150,6 +160,20 @@ public class Servidor2 implements Servidor_I,Replica_I {
 	@Override
 	public boolean identificarCliente(String idCliente, String passwordCliente) throws RemoteException {
 		return clientes.get(idCliente).getPassword().equals(passwordCliente);
+	}
+
+
+
+	@Override
+	public double donacionesReplica() throws RemoteException {
+		
+		double total=0;
+		
+		for(Map.Entry<String, Cliente> entrada : clientes.entrySet()) {
+			total += entrada.getValue().getDonado();
+		}
+		
+		return total;
 	}
 
 }

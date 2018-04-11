@@ -9,6 +9,6 @@ public interface Servidor_I extends Remote{
 	
 	public double donar(String idCliente, double cantidad) throws RemoteException;
 	
-	public double verTotal() throws RemoteException;
+	public double verTotal(String idCliente) throws RemoteException;
 	
 }
