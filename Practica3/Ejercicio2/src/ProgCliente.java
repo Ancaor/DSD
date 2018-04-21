@@ -57,7 +57,12 @@ public class ProgCliente {
 	            		passwordCliente = entrada.nextLine();
 	            		
 	            		int resultadoRegistro = instancia_local.registrar(idCliente,passwordCliente);
-	            		System.out.println(String.valueOf(resultadoRegistro));
+
+				if(resultadoRegistro == 0){
+					System.out.println("Registro fallido, usuario ya registrado");					
+				}else System.out.println(idCliente+" registrado satisfactoriamente.");	            		
+
+
 	            		break;
 	            	case "I":
 	            		System.out.println("Introduce el nombre de usuario:");

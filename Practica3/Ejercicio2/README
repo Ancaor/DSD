@@ -1,0 +1,35 @@
+Solución ejercicio 1:
+
+
+	En la prueba del ejemplo multihebrado, si no se utiliza el modificador synchronized se produce condición de carrera entre las hebras, por lo que se puede ver en la salida por
+	consola que los mensajes se mezclan y mientras la hebra del cliente 0 duerme las otras se ejecutan aunque vayan despues.
+
+	Si se uiliza el modificador synchronized las hebras se esperan unas a otras para que todas se ejecuten en orden y así no se mezclen mensajes en la consola.
+
+
+Ejercicio2:
+
+
+Todos los fuentes están en la carpeta "src".
+
+El programa se compila con
+	javac *.java
+
+Para ejecutarlo hay que ejecutar los dos códigos de los servidores y el cliente
+
+server1:
+	java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor
+
+	
+server2:
+	java -cp . -Djava.rmi.server.codebase=file:./ -Djava.rmi.server.hostname=localhost -Djava.security.policy=server.policy Servidor2
+
+cliente:
+	java -cp . -Djava.security.policy=server.policy ProgCliente
+	
+
+Notas:
+
+	-Una vez registrado un cliente hay que logearse si se desean realizar las operaciones de donar o ver total donado.
+	-La opción "salir" del menú termina la ejecución del cliente.
+	-
