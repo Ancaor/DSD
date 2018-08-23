@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Agente</title>
+	</head>
+
+	<body>
+	</body>
+
+	<h1>Estoy atento a limites de temperatura e iluminación.</h1>
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script type="text/javascript">
+		var serviceURL = 'localhost:8080';
+		var socket = io.connect(serviceURL);
+		var temp_maxima = 40;
+		var luz_maxima = 30;
+		var temp_minima = 5;
+		var luz_minima = 0;
+
+		//EXAMEN
+		var temp_fresca = 25;
+		var ht_actual = 0;
+		var ht_min = 10;
+		//////
+
+		var temp_actual = 0;
+		var luz_actual = 0;
+
+		//Comprueba si la temperatura nueva supera algun limite e informa de ello.
+		socket.on('actualizar_temp', function(data){
+			temp_actual = data;
+			if (temp_actual > temp_maxima){
+				socket.emit('alerta_temp_max',temp_actual);
+				socket.emit('cerrar_persiana');
+			}else if(temp_actual <= temp_minima){
+				socket.emit('alerta_temp_min',temp_actual);
+				socket.emit('abrir_persiana');
+			}
+
+			if((temp_actual <= temp_fresca) && (ht_actual < ht_min)){
+				socket.emit('alerta_ht_min',temp_actual);
+				socket.emit('encender_aspersor');
+			}else {
+				socket.emit('apagar_aspersor');
+				socket.emit('alert_elim_advert_ht');
+			}
+		});
+
+		//Comprueba si la iluminación nueva supera algun limite e informa de ello.
+		socket.on('actualizar_luz', function(data){
+			luz_actual = data;
+			if (luz_actual > luz_maxima){
+				socket.emit('alerta_luz_max',luz_actual);
+				socket.emit('cerrar_persiana');
+			}else if(luz_actual <= luz_minima){
+				socket.emit('alerta_luz_min',luz_actual);
+				socket.emit('abrir_persiana');
+
+			}
+		});
+
+		socket.on('actualizar_humedad_tierra', function(data){
+			ht_actual = data;
+
+			if((temp_actual <= temp_fresca) && (ht_actual < ht_min)){
+				socket.emit('alerta_ht_min',temp_actual);
+				socket.emit('encender_aspersor');
+			}else {
+				socket.emit('apagar_aspersor');
+				socket.emit('alert_elim_advert_ht');
+			}
+		});
+
+		// Indica al cliente que actualice su temperatura y luz al iniciar el servidor.
+		socket.emit('obtener_temp');
+		socket.emit('obtener_luz');
+		socket.emit('obtener_humedad')
+		
+	</script>
+</html>
